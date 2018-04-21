@@ -7,6 +7,8 @@ byte hf[8]= {B00111100,B01000010,B10100101,B10000001,B10100101,B10011001,B010000
 byte nf[8]={B00111100, B01000010,B10100101,B10000001,B10111101,B10000001,B01000010,B00111100};
 byte sf[8]= {B00111100,B01000010,B10100101,B10000001,B10011001,B10100101,B01000010,B00111100};
 SoftwareSerial mySoftwareSerial(10, 11);
+Servo head;
+Servo base;
 DFRobotDFPlayerMini sound;
 int  mood=1, command=0;
 char wheel;
@@ -24,9 +26,17 @@ void setup() {
   pinMode(enA,OUTPUT);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
+  
   mySoftwareSerial.begin(9600);
   Serial.begin(9600);
   timer = millis();
+  
+  //servo setup
+  head.attach(A1);
+  base.attach(A2);
+  head.write(90);
+  base.write(90);
+  
   //led setup
   lc.shutdown(0,false); //start display
   lc.setIntensity(0,0);// Set brightness
@@ -34,6 +44,7 @@ void setup() {
   lc.shutdown(1,false);
   lc.setIntensity(1,0);
   lc.clearDisplay(1);
+  
   //sd card setup
   Serial.println();
   Serial.println(F("DFRobot DFPlayer Mini Demo"));
@@ -75,10 +86,10 @@ void loop() {
   }
   else if(mood==2){
     happy();
-    sound.play(2)
+    sound.play(2);
     }
   else if(mood>=3){
-    angry();
+    //angry
     sound.play(3);
     mood=3;
     }
@@ -222,3 +233,4 @@ void normal(){
       lc.setColumn(0,i,nf[i]);
     }
   }
+
