@@ -3,9 +3,14 @@
 #include "DFRobotDFPlayerMini.h"
 #include "Servo.h"
 #include "LedControl.h"
-byte hf[8]= {B00111100,B01000010,B10100101,B10000001,B10100101,B10011001,B01000010,B00111100};
-byte nf[8]={B00111100, B01000010,B10100101,B10000001,B10111101,B10000001,B01000010,B00111100};
-byte sf[8]= {B00111100,B01000010,B10100101,B10000001,B10011001,B10100101,B01000010,B00111100};
+byte hf[8]= {B01000010,B11100111,B10111111,B10111111,B11111111,B01111110,B00111100,B00011000};
+byte nf1[8]={B00111100,B01111110,B11111111,B11000011,B11000011,B11111111,B01111110,B00111100};
+byte nf2[8]={B00111100,B01000010,B10000001,B10111101,B10111101,B10000001,B01000010,B00111100};
+byte sf1[8]={B11111111,B11111111,B00111000,B00111000,B00011100,B00011100,B00111000,B00111000};
+byte sf2[8]={B11111111,B11111111,B00011100,B00011100,B00111000,B00111000,B00011100,B00011100};
+byte zf1[8]={B11111111,B01000000,B00100000,B00010000,B00001000,B00000100,B00000010,B11111111};
+byte zf2[8]={B11111111,B11000000,B01100000,B00110000,B00011000,B00001100,B00000110,B11111111};
+byte zf3[8]={B11111111,B11111111,B01110000,B00111000,B00011100,B00001110,B11111111,B11111111};
 SoftwareSerial mySoftwareSerial(10, 11);
 Servo head;
 Servo base;
@@ -15,7 +20,7 @@ char wheel;
 long duration,cm,inches;
 unsigned long timer;
 int enA=9,enB=3,in1=8,in2=7,in3=4,in4=2,trig=6,echo=5;
-LedControl lc=LedControl(13,12,A0,2);//DIN,CLK,CS,num of display
+LedControl lc=LedControl(13,A0,12,2);//DIN,CLK,CS,num of display
 void setup() {
   //pin setup
   pinMode(in4,OUTPUT);
@@ -74,12 +79,15 @@ void loop() {
     command = 0;
   }
 
-  if (mood <= 0) {
-    mood = 0;
+  if (mood == 0) {
     sad();
     sound.play(4);
    
   }
+  else if(mood<=-1){
+    mood =-1;
+    sleep();
+    }
   else if(mood==1){
     normal();
     sound.play(1);
@@ -94,8 +102,6 @@ void loop() {
     mood=3;
     }
   sonic();
-  delay(250);
-  Serial.println(mood);
 
   if (wheel == 'f') {
   digitalWrite(in4,HIGH);
@@ -104,7 +110,6 @@ void loop() {
   digitalWrite(in1,HIGH);
   digitalWrite(in2,LOW);
   analogWrite(enA,255);
-  Serial.println("'f'");
   wheel = 0;
  }
  else if (wheel == 'b') {
@@ -124,7 +129,6 @@ void loop() {
   digitalWrite(in1,HIGH);
   digitalWrite(in2,LOW);
   analogWrite(enA,255);
-  Serial.println("'r'");
   wheel = 0;
  } 
   else if (wheel == 'l') {
@@ -134,7 +138,6 @@ void loop() {
   digitalWrite(in1,LOW);
   digitalWrite(in2,LOW);
   analogWrite(enA,255);
-  Serial.println("'l'");
   wheel = 0;
  } 
 }
@@ -156,7 +159,6 @@ void sonic(){
   else if (cm>=10){
   wheel = 'f';
   }
-  Serial.println();
   
 }
 //check sd card detail
@@ -223,14 +225,38 @@ void happy(){
   
 void sad(){
   for(int i=0;i<8;i++){
-      lc.setRow(0,i,sf[i]);
-      lc.setRow(1,i,sf[i]);
-    }
+      lc.setColumn(0,i,sf1[i]);
+      lc.setColumn(1,i,sf1[i]);
+  }
+  delay(100);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,sf2[i]);
+      lc.setColumn(1,i,sf2[i]);
+  }
+  delay(100);      
   }
   
 void normal(){
   for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf[i]);
+      lc.setColumn(0,i,nf1[i]);
+      lc.setColumn(1,i,nf2[i]);
     }
   }
-
+void sleep(){
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,zf1[i]);
+      lc.setColumn(1,i,zf1[i]);
+    }
+  delay(500);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,zf2[i]);
+      lc.setColumn(1,i,zf2[i]);
+    }
+   delay(500);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,zf3[i]);
+      lc.setColumn(1,i,zf3[i]);
+    }
+   delay(500);
+   timer+=1500;
+  }
