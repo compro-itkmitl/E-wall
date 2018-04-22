@@ -77,8 +77,18 @@
   <br>
   
   
-# ![](/pic_readme/5.jpg) References
+# ![](/pic_readme/5.jpg) Function
+setup()//เป็นการsetupค่าต่างๆของอุปกรณ์และตัวแปร<br>
+sonar()// ใช้เพื่อหาระยะทางและกำหนดทิศทางของe-wall<br>
+base_go,head_go(int finalAngle)// ใช้ในการค่อยๆขยับservoส่วนฐานหรือหน้าตามที่กำหนด<br>
+printDetail(uint8_t type, int value)// เป็นฟังก์ชั่นที่จะบอกสถานะของsd card<br>
+happy(),sleep(),angry(),normal(),sad()//เป็นฟังก์ชั่นที่ใช้แสดงอารมณ์ต่างๆของe-wall<br>
 
+# ![](/pic_readme/5.jpg)library
+arduino.h <br>
+SoftwareSerial.h <br>
+DFRobotDFPlayerMini.h <br>
+Servo.h,Ledcntrol.h <br>
 
 # ![](/pic_readme/6.jpg) Team Members
 |  |ชื่อ|นามสกุล|GitHub Username|รหัสนักศึกษา|
