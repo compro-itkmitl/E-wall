@@ -8,7 +8,62 @@
 # ![](/pic_readme/4.jpg) Tools
   # อุปกรณ์ในการใช้มีดังนี้
   ![](/pic_readme/tool1.jpg)
-  TowerPro SG92R Mini Micro Servo x2
+  <br>TowerPro SG92R Mini Micro Servo x2
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool3.jpg)
+  <br>Arduino Uno Rev3 x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool4.jpg)
+  <br> Module Bluetooth HC-05 x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool5.jpg)
+  <br>Ultrasonic Sensor Module (HC-SR04) x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool10.jpg)
+  <br>L298N Dual H-Bridge Motor Controller x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool2.jpg)
+  <br>Jumper 
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool6.jpg)
+  <br>ฺBreadborard 400 holes x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool7.jpg)
+  <br>Speaker 0.25W 8R 2.9CM ลำโพง 0.25W 8 โอห์ม ขนาด 2.9 cm x1
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool9.jpg)
+  <br>LED Dot Matrix 8x8 Red Color Common Anode x2
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool11.jpg)
+  <br>ตัวต้านทาน x3
+  <br>
+  <br>
+  <br>
+  ![](/pic_readme/tool12.jpg)
+  <br>DF player mini mp3 player x1
+  <br>
+  <br>
+  <br>
+  
+  
 # ![](/pic_readme/5.jpg) References
 
 
