@@ -55,6 +55,11 @@
   <br>
   <br>
   <br>
+  ![](/pic_readme/tool8.jpg)
+  <br>ถ่าย 9 V x3
+  <br>
+  <br>
+  <br>
   ![](/pic_readme/tool11.jpg)
   <br>ตัวต้านทาน x3
   <br>
