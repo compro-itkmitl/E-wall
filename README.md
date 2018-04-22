@@ -3,7 +3,7 @@
 # ![](/pic_readme/1.jpg) Introduction
 สวัสดีครับ วันนี้กลุ่ม E-wall 
 
-# ![](/Resources/6.jpg) Team Members
+# ![](/pic_readme/6.jpg) Team Members
 |  |ชื่อ|นามสกุล|GitHub Username|รหัสนักศึกษา|
 |:-:|--|------|---------------|---------|
 |![https://www.facebook.com/profile.php?id=100008347569782](/pic_readme/59070171.jpg)|Saminya|Leammookda|[@it59070171](https://github.com/it59070171)|59070171|
