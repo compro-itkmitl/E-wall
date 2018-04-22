@@ -4,19 +4,23 @@
 #include "Servo.h"
 #include "LedControl.h"
 byte hf[8]= {B01000010,B11100111,B10111111,B10111111,B11111111,B01111110,B00111100,B00011000};
-byte nf1[8]={B00111100,B01111110,B11111111,B11000011,B11000011,B11111111,B01111110,B00111100};
-byte nf2[8]={B00111100,B01111110,B11111111,B11111111,B11000011,B11111111,B01111110,B00111100};
-byte nf3[8]={B00111100,B01111110,B11111111,B11111111,B11111111,B11111111,B01111110,B00111100};
+byte nf[3][8]={{B00111100,B01111110,B11111111,B11100111,B11100111,B11111111,B01111110,B00111100}
+              ,{B00111100,B01111110,B11111111,B11111111,B11100111,B11111111,B01111110,B00111100}, 
+               {B00111100,B01111110,B11111111,B11111111,B11111111,B11111111,B01111110,B00111100}
+};
 byte sf1[8]={B11111111,B11111111,B00111000,B00111000,B00011100,B00011100,B00111000,B00111000};
 byte sf2[8]={B11111111,B11111111,B00011100,B00011100,B00111000,B00111000,B00011100,B00011100};
 byte zf1[8]={B11111111,B01000000,B00100000,B00010000,B00001000,B00000100,B00000010,B11111111};
 byte zf2[8]={B11111111,B11000000,B01100000,B00110000,B00011000,B00001100,B00000110,B11111111};
 byte zf3[8]={B11111111,B11111111,B01110000,B00111000,B00011100,B00001110,B11111111,B11111111};
+byte arf1[8]={B00110000,B01111000,B11111100,B11100110,B11100111,B11111111,B01111110,B00111100};
+byte alf1[8]={B00001100,B00011110,B00111111,B01100111,B11100111,B11111111,B01111110,B00111100};
+
 SoftwareSerial mySoftwareSerial(10, 11);
 Servo head;
 Servo base;
 DFRobotDFPlayerMini sound;
-int  mood=1, command=0;
+int j=2, mood=1, command=0, frame, animation=0;
 char wheel;
 long duration,cm,inches;
 unsigned long timer;
@@ -35,14 +39,14 @@ void setup() {
   
   mySoftwareSerial.begin(9600);
   Serial.begin(9600);
-  timer = millis();
-  
+
   //servo setup
   head.attach(A1);
   base.attach(A2);
-  head.write(90);
-  base.write(90);
-  
+  head_go(90);
+  delay(39);
+  base_go(100);
+  delay(39);
   //led setup
   lc.shutdown(0,false); //start display
   lc.setIntensity(0,0);// Set brightness
@@ -65,18 +69,24 @@ void setup() {
   Serial.println(F("DFPlayer Mini online."));
   
   sound.volume(25);  //Set volume value. From 0 to 30
+  sound.play(1);
+  delay(5000);
+  timer = millis();
+  frame = millis();
+  
 } 
 void loop() {
   if(Serial.available() > 0){ // Checks whether data is comming from the serial port
     command = Serial.read(); // Reads the data from the serial port
  }
-  if (millis() - timer >= 10000000){//timer of mood 
+  if (millis() - timer >= 5000){//timer of mood 
     timer = millis();
     mood--;
     Serial.println(mood);
   }
   sonic();
   if (command == '1') {
+ 
     mood++;
     command = 0;
   }
@@ -90,9 +100,23 @@ void loop() {
     mood =-1;
     sleep();
     wheel = 's';
+    
     }
   else if(mood==1){
     normal();
+    if (millis()-frame>=50){
+      frame =millis();
+
+      if(animation< j){
+        animation++;
+        j=2; 
+        }
+       else{
+        j=1;
+        animation--;
+       }  
+      }
+
     sound.play(1);
   }
   else if(mood==2){
@@ -102,6 +126,7 @@ void loop() {
   else if(mood>=3){
     //angry
     sound.play(3);
+    angry();
     mood=3;
     }
   if(wheel=='s'){
@@ -171,6 +196,39 @@ void sonic(){
   }
   
 }
+
+
+
+void base_go(int finalAngle){
+  int currentAngle = base.read();
+  if (finalAngle>currentAngle){
+    for(int i= currentAngle;i<finalAngle;i++){
+        base.write(i);
+        delay(10);
+      }
+    }
+   else{
+    for(int i=currentAngle; i >finalAngle;i--){
+        base.write(i);
+        delay(10);
+      }
+    }
+  }
+void head_go(int finalAngle){
+  int currentAngle = base.read();
+  if (finalAngle>currentAngle){
+    for(int i= currentAngle;i<finalAngle;i++){
+        head.write(i);
+        delay(10);
+      }
+    }
+   else{
+    for(int i=currentAngle; i >finalAngle;i--){
+        head.write(i);
+        delay(10);
+      }
+    }
+  }  
 //check sd card detail
 void printDetail(uint8_t type, int value){
   switch (type) {
@@ -238,39 +296,18 @@ void sad(){
       lc.setColumn(0,i,sf1[i]);
       lc.setColumn(1,i,sf1[i]);
   }
-  delay(100);
+  
   for(int i=0;i<8;i++){
       lc.setColumn(0,i,sf2[i]);
       lc.setColumn(1,i,sf2[i]);
   }
-  delay(100);      
+        
   }
   
 void normal(){
   for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf1[i]);
-      lc.setColumn(1,i,nf1[i]);
-    
-    }
-  delay(200);
-  for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf2[i]);
-      lc.setColumn(1,i,nf2[i]);
-    }
-  delay(200);
-  for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf3[i]);
-      lc.setColumn(1,i,nf3[i]);
-    }
-  delay(200);
-  for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf2[i]);
-      lc.setColumn(1,i,nf2[i]);
-    }
-   delay(100);
-  for(int i=0;i<8;i++){
-      lc.setColumn(0,i,nf1[i]);
-      lc.setColumn(1,i,nf1[i]);
+      lc.setColumn(0,i,nf[animation][i]);
+      lc.setColumn(1,i,nf[animation][i]);
     }
   }
   
@@ -279,6 +316,8 @@ void sleep(){
       lc.setColumn(0,i,zf1[i]);
       lc.setColumn(1,i,zf1[i]);
     }
+  base_go(100);
+  head_go(90);
   delay(500);
   for(int i=0;i<8;i++){
       lc.setColumn(0,i,zf2[i]);
@@ -289,6 +328,14 @@ void sleep(){
       lc.setColumn(0,i,zf3[i]);
       lc.setColumn(1,i,zf3[i]);
     }
-   delay(500);
+  head_go(115);
+  delay(500);
    timer+=1500;
   }
+void angry(){
+  for(int i=0;i<8;i++){
+    lc.setColumn(0,i,alf1[i]);
+    lc.setColumn(1,i,arf1[i]);
+    }
+  }
+
