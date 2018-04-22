@@ -6,7 +6,9 @@
 # ![](/pic_readme/2.jpg) How to use
 
 # ![](/pic_readme/4.jpg) Tools
-
+  # อุปกรณ์ในการใช้มีดังนี้
+  ![](/pic_readme/tool1.jpg)
+  TowerPro SG92R Mini Micro Servo x2
 # ![](/pic_readme/5.jpg) References
 
 
