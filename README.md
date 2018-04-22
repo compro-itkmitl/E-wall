@@ -56,7 +56,7 @@
   <br>
   <br>
   ![](/pic_readme/tool8.jpg)
-  <br>ถ่าย 9 V x3
+  <br>ถ่าน 9 V x3
   <br>
   <br>
   <br>
