@@ -5,7 +5,8 @@
 #include "LedControl.h"
 byte hf[8]= {B01000010,B11100111,B10111111,B10111111,B11111111,B01111110,B00111100,B00011000};
 byte nf1[8]={B00111100,B01111110,B11111111,B11000011,B11000011,B11111111,B01111110,B00111100};
-byte nf2[8]={B00111100,B01000010,B10000001,B10111101,B10111101,B10000001,B01000010,B00111100};
+byte nf2[8]={B00111100,B01111110,B11111111,B11111111,B11000011,B11111111,B01111110,B00111100};
+byte nf3[8]={B00111100,B01111110,B11111111,B11111111,B11111111,B11111111,B01111110,B00111100};
 byte sf1[8]={B11111111,B11111111,B00111000,B00111000,B00011100,B00011100,B00111000,B00111000};
 byte sf2[8]={B11111111,B11111111,B00011100,B00011100,B00111000,B00111000,B00011100,B00011100};
 byte zf1[8]={B11111111,B01000000,B00100000,B00010000,B00001000,B00000100,B00000010,B11111111};
@@ -69,11 +70,12 @@ void loop() {
   if(Serial.available() > 0){ // Checks whether data is comming from the serial port
     command = Serial.read(); // Reads the data from the serial port
  }
-  if (millis() - timer >= 5000){//timer of mood 
+  if (millis() - timer >= 10000000){//timer of mood 
     timer = millis();
     mood--;
     Serial.println(mood);
   }
+  sonic();
   if (command == '1') {
     mood++;
     command = 0;
@@ -87,6 +89,7 @@ void loop() {
   else if(mood<=-1){
     mood =-1;
     sleep();
+    wheel = 's';
     }
   else if(mood==1){
     normal();
@@ -101,9 +104,16 @@ void loop() {
     sound.play(3);
     mood=3;
     }
-  sonic();
-
-  if (wheel == 'f') {
+  if(wheel=='s'){
+  digitalWrite(in4,HIGH);
+  digitalWrite(in3,HIGH);
+  analogWrite(enB,255);
+  digitalWrite(in1,HIGH);
+  digitalWrite(in2,HIGH);
+  analogWrite(enA,255);
+  Serial.println('s');
+  }
+  else if (wheel == 'f') {
   digitalWrite(in4,HIGH);
   digitalWrite(in3,LOW);
   analogWrite(enB,255);
@@ -239,9 +249,31 @@ void sad(){
 void normal(){
   for(int i=0;i<8;i++){
       lc.setColumn(0,i,nf1[i]);
+      lc.setColumn(1,i,nf1[i]);
+    
+    }
+  delay(200);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,nf2[i]);
       lc.setColumn(1,i,nf2[i]);
     }
+  delay(200);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,nf3[i]);
+      lc.setColumn(1,i,nf3[i]);
+    }
+  delay(200);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,nf2[i]);
+      lc.setColumn(1,i,nf2[i]);
+    }
+   delay(100);
+  for(int i=0;i<8;i++){
+      lc.setColumn(0,i,nf1[i]);
+      lc.setColumn(1,i,nf1[i]);
+    }
   }
+  
 void sleep(){
   for(int i=0;i<8;i++){
       lc.setColumn(0,i,zf1[i]);
