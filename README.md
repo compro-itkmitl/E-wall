@@ -99,5 +99,5 @@ Servo.h,Ledcntrol.h <br>
 
 
 # ![](/pic_readme/8.jpg) Assistant Teachers
-![](/pic_readme/aj.jpg)
+![](/pic_readme/Aj.jpg)
 ![](/pic_readme/itkmitl.jpg)
