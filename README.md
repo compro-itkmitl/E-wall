@@ -3,6 +3,13 @@
 # ![](/pic_readme/1.jpg) Introduction
 สวัสดีครับ วันนี้กลุ่ม E-wall 
 
+# ![](/pic_readme/2.jpg) How to use
+
+# ![](/pic_readme/4.jpg) Tools
+
+# ![](/pic_readme/5.jpg) References
+
+
 # ![](/pic_readme/6.jpg) Team Members
 |  |ชื่อ|นามสกุล|GitHub Username|รหัสนักศึกษา|
 |:-:|--|------|---------------|---------|
