@@ -99,9 +99,5 @@ Servo.h,Ledcntrol.h <br>
 
 
 # ![](/pic_readme/8.jpg) Assistant Teachers
-|ผศ. ดร. กิติ์สุชาติ พสุภา|ผศ. ดร. ปานวิทย์ ธุวะนุติ|
-|:-:|:-:|
-|![](/pic_readme/AjOng.jpg)|![](/pic_readme/AjPanwit.jpg)|
-<br>
-
+![](/pic_readme/aj.jpg)
 ![](/pic_readme/itkmitl.jpg)
