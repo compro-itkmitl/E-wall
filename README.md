@@ -65,6 +65,11 @@
   <br>
   <br>
   <br>
+  ![](/pic_readme/tool13.jpg)
+  <br>2wd smart car chassis 2ชั้นr x1
+  <br>
+  <br>
+  <br>
   
   
 # ![](/pic_readme/5.jpg) References
