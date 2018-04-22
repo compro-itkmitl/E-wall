@@ -7,7 +7,12 @@
 ขอให้สนุกกับหุ่นยนต์ของเรากันน่ะครับ
 
 # ![](/pic_readme/2.jpg) How to use
-
+  วิธีใช้
+  ลงแอป arduino bluetooth controller ผ่านทางplay store
+  เชื่อมต่อ e-wall กับมือถือ
+  สามารถดูสถานะของE-wallได้ในTerminal mode
+  สามารถเล่นกับE-wall ได้โดยพิมพ์1ในTeminal
+  และสามารถปิดเสียงได้โดยพิมพ์2ในTerminal
 # ![](/pic_readme/4.jpg) Tools
   # อุปกรณ์ในการใช้มีดังนี้
   ![](/pic_readme/tool1.jpg)
