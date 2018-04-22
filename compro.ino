@@ -98,21 +98,55 @@ void loop() {
   if (millis() - timer >= 60000){//timer of mood 
     timer = millis();
     mood--;
+    if (mood==1){
+    Serial.println("E-wall mood is normal");
+    }
+    else if (mood==-1){
+    Serial.println("E-wall have gone to sleep sleep");
+    }
+    else if (mood==0){
+    Serial.println("E-wall is sad");
+    }
+    else if (mood==2){
+    Serial.println("E-wall is happy");
+    }
+    else if (mood==3){
+    Serial.println("E-wall is angry don't play with him too much");
+    }
   }
   sonic();
   if (command == '1') {
  
     mood++;
+    timer=millis();
+    if (mood==1){
+    Serial.println("E-wall mood is normal");
+    }
+    else if (mood==-1){
+    Serial.println("E-wall have gone to sleep sleep");
+    }
+    else if (mood==0){
+    Serial.println("E-wall is sad");
+    }
+    else if (mood==2){
+    Serial.println("E-wall is happy");
+    }
+    else if (mood==3){
+    Serial.println("E-wall is angry don't play with him too much");
+    }
+    
     command = 0;
   }
   else if(command =='2'){
 
     if(vol>0){
     sound.volume(0);
+    Serial.println("Mute");
     vol = 0;}
     else{
       sound.volume(25);
       vol=25;
+      Serial.println("Unmute");
       }
     command=0;
     }
@@ -129,7 +163,7 @@ void loop() {
     }
   else if(mood==1){
     normal();
-    if (millis()-frame>=50){
+     if (millis()-frame>=50){
       frame =millis();
 
       if(animation< j){
