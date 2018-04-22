@@ -71,7 +71,7 @@
 |  |ชื่อ|นามสกุล|GitHub Username|รหัสนักศึกษา|
 |:-:|--|------|---------------|---------|
 |![https://www.facebook.com/profile.php?id=100008347569782](/pic_readme/59070171.jpg)|Saminya|Leammookda|[@it59070171](https://github.com/it59070171)|59070171|
-|![https://www.facebook.com/](/pic_readme/60070114.jpg)|Apisit|Wetmaha|[@Apisit60070114](https://github.com/Apisit60070114)|60070114|
+|![https://www.facebook.com/profile.php?id=100018579390168](/pic_readme/60070114.jpg)|Apisit|Wetmaha|[@Apisit60070114](https://github.com/Apisit60070114)|60070114|
 |![https://www.facebook.com/focus251](/pic_readme/60070181.jpg)|Kittichet|preedathanaphong|[@Focus565](https://github.com/Focus565)|60070181|
 
 
