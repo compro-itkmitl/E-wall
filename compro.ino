@@ -3,7 +3,10 @@
 #include "DFRobotDFPlayerMini.h"
 #include "Servo.h"
 #include "LedControl.h"
-byte hf[8]= {B01000010,B11100111,B10111111,B10111111,B11111111,B01111110,B00111100,B00011000};
+byte hf[3][8]= {{B01000010,B11100111,B11111111,B11111111,B11111111,B01111110,B00111100,B00011000}
+               ,{B00000000,B00000000,B11111111,B11111111,B11111111,B01111110,B00000000,B00000000}
+               ,{B00000000,B00000000,B00000000,B11111111,B11111111,B00000000,B00000000,B00000000}
+};
 byte nf[3][8]={{B00111100,B01111110,B11111111,B11100111,B11100111,B11111111,B01111110,B00111100}
               ,{B00111100,B01111110,B11111111,B11111111,B11100111,B11111111,B01111110,B00111100}, 
                {B00111100,B01111110,B11111111,B11111111,B11111111,B11111111,B01111110,B00111100}
@@ -13,17 +16,27 @@ byte sf2[8]={B11111111,B11111111,B00011100,B00011100,B00111000,B00111000,B000111
 byte zf1[8]={B11111111,B01000000,B00100000,B00010000,B00001000,B00000100,B00000010,B11111111};
 byte zf2[8]={B11111111,B11000000,B01100000,B00110000,B00011000,B00001100,B00000110,B11111111};
 byte zf3[8]={B11111111,B11111111,B01110000,B00111000,B00011100,B00001110,B11111111,B11111111};
-byte arf1[8]={B00110000,B01111000,B11111100,B11100110,B11100111,B11111111,B01111110,B00111100};
-byte alf1[8]={B00001100,B00011110,B00111111,B01100111,B11100111,B11111111,B01111110,B00111100};
+byte arf[3][8]={{B00110000,B01111000,B11111100,B11100110,B11100111,B11111111,B01111110,B00111100}
+                ,{B00110000,B01111000,B11111100,B11111110,B11100111,B11111111,B01111110,B00111100}
+                ,{B00110000,B01111000,B11111100,B11111110,B11111111,B11111111,B01111110,B00111100}
+};
+byte alf[3][8]={{B00001100,B00011110,B00111111,B01100111,B11100111,B11111111,B01111110,B00111100}
+                ,{B00001100,B00011110,B00111111,B01111111,B11100111,B11111111,B01111110,B00111100}
+                ,{B00001100,B00011110,B00111111,B01111111,B11111111,B11111111,B01111110,B00111100}
+};
 
+byte startl[8]={B00111100,B00000100,B00000100,B00111100,B00000100,B00000100,B00000100,B00111100};
+byte startr[8]={B10000001,B10000001,B10000001,B10011001,B10100101,B10100101,B10100101,B01000010};
 SoftwareSerial mySoftwareSerial(10, 11);
 Servo head;
 Servo base;
 DFRobotDFPlayerMini sound;
 int j=2, mood=1, command=0, frame, animation=0;
+int vol=25;
 char wheel;
 long duration,cm,inches;
 unsigned long timer;
+int state=0; 
 int enA=9,enB=3,in1=8,in2=7,in3=4,in4=2,trig=6,echo=5;
 LedControl lc=LedControl(13,A0,12,2);//DIN,CLK,CS,num of display
 void setup() {
@@ -67,9 +80,12 @@ void setup() {
     while(true);
   }
   Serial.println(F("DFPlayer Mini online."));
-  
-  sound.volume(25);  //Set volume value. From 0 to 30
-  sound.play(1);
+  for(int i=0;i<8;i++){
+    lc.setColumn(0,i,startl[i]);
+    lc.setColumn(1,i,startr[i]);
+    }
+  sound.volume(25);  //Set volume value6 From 0 to 30
+  sound.play(6);
   delay(5000);
   timer = millis();
   frame = millis();
@@ -79,32 +95,75 @@ void loop() {
   if(Serial.available() > 0){ // Checks whether data is comming from the serial port
     command = Serial.read(); // Reads the data from the serial port
  }
-  if (millis() - timer >= 5000){//timer of mood 
+  if (millis() - timer >= 60000){//timer of mood 
     timer = millis();
     mood--;
-    Serial.println(mood);
+    if (mood==1){
+    Serial.println("E-wall mood is normal");
+    }
+    else if (mood==-1){
+    Serial.println("E-wall have gone to sleep sleep");
+    }
+    else if (mood==0){
+    Serial.println("E-wall is sad");
+    }
+    else if (mood==2){
+    Serial.println("E-wall is happy");
+    }
+    else if (mood==3){
+    Serial.println("E-wall is angry don't play with him too much");
+    }
   }
   sonic();
   if (command == '1') {
  
     mood++;
+    timer=millis();
+    if (mood==1){
+    Serial.println("E-wall mood is normal");
+    }
+    else if (mood==-1){
+    Serial.println("E-wall have gone to sleep sleep");
+    }
+    else if (mood==0){
+    Serial.println("E-wall is sad");
+    }
+    else if (mood==2){
+    Serial.println("E-wall is happy");
+    }
+    else if (mood==3){
+    Serial.println("E-wall is angry don't play with him too much");
+    }
+    
     command = 0;
   }
+  else if(command =='2'){
 
+    if(vol>0){
+    sound.volume(0);
+    Serial.println("Mute");
+    vol = 0;}
+    else{
+      sound.volume(25);
+      vol=25;
+      Serial.println("Unmute");
+      }
+    command=0;
+    }
   if (mood == 0) {
     sad();
-    sound.play(4);
+    sound.play(2);
    
   }
   else if(mood<=-1){
     mood =-1;
     sleep();
     wheel = 's';
-    
+    sound.play(1);
     }
   else if(mood==1){
     normal();
-    if (millis()-frame>=50){
+     if (millis()-frame>=50){
       frame =millis();
 
       if(animation< j){
@@ -117,16 +176,33 @@ void loop() {
        }  
       }
 
-    sound.play(1);
+    sound.play(3);
   }
   else if(mood==2){
     happy();
-    sound.play(2);
+    if(millis()-frame>=100){
+      if(animation==1){
+          animation=0;
+        }
+      else{
+          animation=1;
+        }
+    }
+    sound.play(4);
     }
   else if(mood>=3){
     //angry
-    sound.play(3);
     angry();
+    if (millis()-frame>=10){
+      frame=millis();
+      if(animation<j){
+        animation++;
+        j=2;}
+      else{
+        j=1;
+        animation--;}
+      }
+    sound.play(5);
     mood=3;
     }
   if(wheel=='s'){
@@ -154,7 +230,6 @@ void loop() {
   digitalWrite(in1,LOW);
   digitalWrite(in2,HIGH);
   analogWrite(enA,255);
-  Serial.println("'b'");
   wheel = 0;
  }
   else if (wheel == 'r') {
@@ -190,9 +265,11 @@ void sonic(){
   cm = (duration/2) / 29.1;
   if (cm<10){
   wheel = 'l';
+  base_go(150);
   }
   else if (cm>=10){
   wheel = 'f';
+  base_go(90);
   }
   
 }
@@ -286,8 +363,8 @@ void printDetail(uint8_t type, int value){
 }
 void happy(){
   for(int i=0;i<8;i++){
-      lc.setColumn(0,i,hf[i]);
-      lc.setColumn(1,i,hf[i]);
+      lc.setColumn(0,i,hf[animation][i]);
+      lc.setColumn(1,i,hf[animation][i]);
     }
   }
   
@@ -334,8 +411,8 @@ void sleep(){
   }
 void angry(){
   for(int i=0;i<8;i++){
-    lc.setColumn(0,i,alf1[i]);
-    lc.setColumn(1,i,arf1[i]);
+    lc.setColumn(0,i,alf[animation][i]);
+    lc.setColumn(1,i,arf[animation][i]);
     }
   }
 
